@@ -23,14 +23,13 @@ namespace MonteCarloPi
         {
             return dartsInsideBoard;
         }
-
         public void throwDarts()
         {
             for (int i = 0; i < numDarts; i++)
             {
                 double x = rng.NextDouble() % .5;
                 double y = rng.NextDouble() % .5;
-                if (x * x + y * y <= .5)
+                if (Math.Sqrt(x * x + y * y) <= .5)
                 {
                     dartsInsideBoard++;
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -20,6 +21,9 @@ namespace MonteCarloPi
             List<Thread> threads = new List<Thread>();
             List<FindPiThread> piThreads = new List<FindPiThread>();
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            
             for (int i = 0; i < numThreads; i++)
             {
                 FindPiThread piThread = new FindPiThread(numDarts);
@@ -30,6 +34,7 @@ namespace MonteCarloPi
                 thread.Start();
                 Thread.Sleep(16);
             }
+            
 
            foreach (Thread thread in threads)
             {
@@ -43,9 +48,12 @@ namespace MonteCarloPi
             {
                 totalDartsInside += piThread.getDartsInsideBoard();
             }
-            
-            double pi = 4 * (totalDartsInside / totalDartsThrown);
-            Console.WriteLine(pi);
+            stopwatch.Stop();
+            TimeSpan elapsed = stopwatch.Elapsed;
+
+            double pi = 4 * (Convert.ToDouble(totalDartsInside) / totalDartsThrown);
+            Console.WriteLine("Pi: " + pi.ToString());
+            Console.WriteLine("Time Elapsed: " + elapsed.Minutes.ToString() + " minutes " + elapsed.Seconds.ToString() + " seconds " + elapsed.Milliseconds.ToString() + " milliseconds");
         }
     }
 }
