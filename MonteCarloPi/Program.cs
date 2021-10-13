@@ -31,13 +31,21 @@ namespace MonteCarloPi
                 Thread.Sleep(16);
             }
 
-            for (int i = 0; i < numThreads; i++)
+           foreach (Thread thread in threads)
             {
-                foreach (thread in threads)
-                {
-
-                }
+                thread.Join();
             }
+
+            int totalDartsThrown = numThreads * numDarts;
+            int totalDartsInside = 0;
+
+            foreach (FindPiThread piThread in piThreads)
+            {
+                totalDartsInside += piThread.getDartsInsideBoard();
+            }
+            
+            double pi = 4 * (totalDartsInside / totalDartsThrown);
+            Console.WriteLine(pi);
         }
     }
 }
